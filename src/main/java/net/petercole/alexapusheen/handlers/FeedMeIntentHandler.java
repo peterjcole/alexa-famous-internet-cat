@@ -14,6 +14,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
+import static net.petercole.alexapusheen.handlers.IsFullIntentHandler.FOOD_KEY;
+import static net.petercole.alexapusheen.handlers.IsFullIntentHandler.FOOD_SLOT;
+
+
 
 
 public class FeedMeIntentHandler implements RequestHandler{
@@ -30,14 +34,14 @@ public class FeedMeIntentHandler implements RequestHandler{
 		Intent intent = intentRequest.getIntent();
 		Map<String, Slot> slots = intent.getSlots();
 		
-		Slot foodSlot = slots.get("Food");
+		Slot foodSlot = slots.get(FOOD_SLOT);
 		
 		String speechText, repromptText;
 		boolean isAskResponse = false;
 		
 		if (foodSlot != null) {
 			String fedFood = foodSlot.getValue();
-			input.getAttributesManager().setSessionAttributes(Collections.singletonMap("Fed", fedFood));
+			input.getAttributesManager().setSessionAttributes(Collections.singletonMap(FOOD_KEY, fedFood));
 			speechText = String.format("Burp, thanks for the %s. You can ask me whether I'm full.", fedFood);
 			repromptText = "You can ask me whether I'm full by saying, are you full?";
 			
