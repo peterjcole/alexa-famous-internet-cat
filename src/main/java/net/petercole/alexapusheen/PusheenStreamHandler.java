@@ -10,7 +10,19 @@ public class PusheenStreamHandler extends SkillStreamHandler{
 
 	private static Skill getSkill() {
 		return Skills.standard()
-				 .addRequestHandlers(new FallbackIntentHandler(), new CancelandStopIntentHandler(), new HelloWorldIntentHandler(), new HelpIntentHandler(), new LaunchRequestHandler(), new SessionEndedRequestHandler(), new TinyIntentHandler(), new FeedMeIntentHandler(), new IsFullIntentHandler(), new PangPangIntentHandler())
+				 .addRequestHandlers(new FallbackIntentHandler(), 
+						 new CancelandStopIntentHandler(), 
+						 new HelloWorldIntentHandler(), 
+						 new HelpIntentHandler(), 
+						 new LaunchRequestHandler(), 
+						 new SessionEndedRequestHandler(), 
+						 new TinyIntentHandler(), 
+						 new FeedMeIntentHandler(), 
+						 new IsFullIntentHandler(), 
+						 new PangPangIntentHandler(), 
+						 new RecipeInfoIntentHandler(), 
+						 new RecipeStartOrNextIntentHandler()
+						 )
                  .build();
 	}
 	
