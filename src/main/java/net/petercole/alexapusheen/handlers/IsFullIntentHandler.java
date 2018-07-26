@@ -33,6 +33,7 @@ public class IsFullIntentHandler implements RequestHandler {
 		return input.getResponseBuilder()
 				.withSpeech(speechText)
 				.withSimpleCard("HelloWorld", speechText)
+                .withShouldEndSession(false)
 				.build();
 		
 	}
