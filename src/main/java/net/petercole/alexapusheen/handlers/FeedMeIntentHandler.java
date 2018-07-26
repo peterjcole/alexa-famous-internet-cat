@@ -10,7 +10,9 @@ import com.amazon.ask.request.Predicates;
 import com.amazon.ask.response.ResponseBuilder;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -36,33 +38,48 @@ public class FeedMeIntentHandler implements RequestHandler{
 		Map<String, Slot> slots = intent.getSlots();
 		
 		Slot foodSlot = slots.get(FOOD_SLOT);
-		
+		String fedFood = foodSlot.getValue();
+
 		String speechText, repromptText = null;
 		boolean isAskResponse = false;
 		
 		Map<String, Object> sessionMap = input.getAttributesManager().getSessionAttributes();
-	
-		// todo: refactor using an array
+		
+		@SuppressWarnings("unchecked")
+		List<String> foodList = (List<String>) sessionMap.get(FOOD_KEY);
+		// done: refactor using a list
 		if (foodSlot.getValue() != null) {
-			if (sessionMap.size() > 2) {
-				StringJoiner joiner = new StringJoiner(", ");
-				sessionMap.forEach((k,v)->joiner.add(v.toString()));
-				String foodList = joiner.toString();
+			if (foodList != null) {
+				// full
+				if (foodList.size() > 2) {
+					StringJoiner joiner = new StringJoiner(", ");
+					foodList.forEach(item->joiner.add(item));
+					String allFood = joiner.toString();
+					speechText = String.format("No thank you, I'm full. You already fed me %s.", allFood);
+				} else if (foodList.size() == 2) {
+					//just filled up
+					foodList.add(fedFood);
+					StringJoiner joiner = new StringJoiner(", ");
+					foodList.forEach(item->joiner.add(item));
+					String allFood = joiner.toString();
+					speechText = "Burp, thanks for the " + fedFood + ". I'm full now! You fed me " + allFood;
 
-				speechText = String.format("No thank you, I'm full. You already fed me %s.", foodList);
+				} else {
+					foodList.add(fedFood);
+					speechText = String.format("Burp, thanks for the %s. I'm getting fuller but I'm still hungry!", fedFood);
+				}
 			} else {
-				String fedFood = foodSlot.getValue();
-				String key = "Food " + (sessionMap.size() + 1);
-				sessionMap.put(key, fedFood);
+				// First bit of food
+				foodList = new ArrayList<String>();
+				foodList.add(fedFood);
+				sessionMap.put(FOOD_KEY, foodList);
 				input.getAttributesManager().setSessionAttributes(sessionMap);
 				speechText = String.format("Meow, thanks for the %s. I'm still hungry!", fedFood);
 				repromptText = "Feed me more food!";
-				
-			}
-			
-
+				} 
 			
 		} else {
+			// no food provided
 			speechText = "What is this rubbish? I'm hungry, please feed me something that I want to eat!";
 			repromptText = "What is this rubbish? I'm hungry, please feed me something that I want to eat!";
 			isAskResponse = true;
