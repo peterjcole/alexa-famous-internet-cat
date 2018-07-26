@@ -39,16 +39,16 @@ public class FeedMeIntentHandler implements RequestHandler{
 		String speechText, repromptText;
 		boolean isAskResponse = false;
 		
-		if (foodSlot != null) {
+		if (foodSlot.getValue() != null) {
 			String fedFood = foodSlot.getValue();
 			input.getAttributesManager().setSessionAttributes(Collections.singletonMap(FOOD_KEY, fedFood));
-			speechText = String.format("Burp, thanks for the %s. You can ask me whether I'm full.", fedFood);
+			speechText = String.format("Meow, thanks for the %s. You can ask me whether I'm full.", fedFood);
 			repromptText = "You can ask me whether I'm full by saying, are you full?";
 			
 			
 		} else {
-			speechText = "I'm hungry, please feed me something.";
-			repromptText = "I'm hungry, please feed me something.";
+			speechText = "I'm hungry, please feed me something that I want to eat!";
+			repromptText = "I'm hungry, please feed me something that I want to eat!";
 			isAskResponse = true;
 			
 		}
