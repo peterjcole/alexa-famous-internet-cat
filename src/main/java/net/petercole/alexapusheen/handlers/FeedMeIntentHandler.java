@@ -25,6 +25,13 @@ import static net.petercole.alexapusheen.handlers.IsFullIntentHandler.FOOD_SLOT;
 
 public class FeedMeIntentHandler implements RequestHandler{
 
+	public String listToString (List<String> list) {
+		StringJoiner joiner = new StringJoiner(", ");
+		list.forEach(item->joiner.add(item));
+		return joiner.toString(); 
+		
+	}
+	
 	@Override
 	public boolean canHandle(HandlerInput input) {
 		return input.matches(Predicates.intentName("FeedMeIntent"));
@@ -50,18 +57,14 @@ public class FeedMeIntentHandler implements RequestHandler{
 		// done: refactor using a list
 		if (foodSlot.getValue() != null) {
 			if (foodList != null) {
-				// full
 				if (foodList.size() > 2) {
-					StringJoiner joiner = new StringJoiner(", ");
-					foodList.forEach(item->joiner.add(item));
-					String allFood = joiner.toString();
+					//full
+					String allFood = listToString(foodList);
 					speechText = String.format("No thank you, I'm full. You already fed me %s.", allFood);
 				} else if (foodList.size() == 2) {
 					//just filled up
 					foodList.add(fedFood);
-					StringJoiner joiner = new StringJoiner(", ");
-					foodList.forEach(item->joiner.add(item));
-					String allFood = joiner.toString();
+					String allFood = listToString(foodList);
 					speechText = "Burp, thanks for the " + fedFood + ". I'm full now! You fed me " + allFood;
 
 				} else {
