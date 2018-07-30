@@ -8,8 +8,8 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.request.Predicates;
 
-import net.petercole.alexpusheen.model.Attributes;
-import net.petercole.alexpusheen.model.Constants;
+import net.petercole.alexapusheen.model.Attributes;
+import net.petercole.alexapusheen.model.Constants;
 
 public class RecipeInfoIntentHandler implements RequestHandler{
 

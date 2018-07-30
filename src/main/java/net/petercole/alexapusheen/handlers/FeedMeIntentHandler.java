@@ -8,29 +8,23 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
 import com.amazon.ask.response.ResponseBuilder;
+
+import net.petercole.alexapusheen.model.Utils;
+
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 
+import static net.petercole.alexapusheen.model.Attributes.*;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.StringJoiner;
-
-import static net.petercole.alexapusheen.handlers.IsFullIntentHandler.FOOD_KEY;
-import static net.petercole.alexapusheen.handlers.IsFullIntentHandler.FOOD_SLOT;
-
 
 
 
 public class FeedMeIntentHandler implements RequestHandler{
 
-	public String listToString (List<String> list) {
-		StringJoiner joiner = new StringJoiner(", ");
-		list.forEach(item->joiner.add(item));
-		return joiner.toString(); 
 		
-	}
 	
 	@Override
 	public boolean canHandle(HandlerInput input) {
@@ -59,12 +53,12 @@ public class FeedMeIntentHandler implements RequestHandler{
 			if (foodList != null) {
 				if (foodList.size() > 2) {
 					//full
-					String allFood = listToString(foodList);
+					String allFood = Utils.listToCommaString(foodList);
 					speechText = String.format("No thank you, I'm full. You already fed me %s.", allFood);
 				} else if (foodList.size() == 2) {
 					//just filled up
 					foodList.add(fedFood);
-					String allFood = listToString(foodList);
+					String allFood = Utils.listToCommaString(foodList);
 					speechText = "Burp, thanks for the " + fedFood + ". I'm full now! You fed me " + allFood;
 
 				} else {

@@ -48,3 +48,7 @@ buildNumber.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Custom #
+##########
+publish.sh

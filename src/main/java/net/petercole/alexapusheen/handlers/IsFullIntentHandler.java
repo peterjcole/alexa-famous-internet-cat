@@ -5,25 +5,17 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.request.Predicates;
 
-import static net.petercole.alexapusheen.handlers.IsFullIntentHandler.FOOD_KEY;
+import net.petercole.alexapusheen.model.Utils;
+
+import static net.petercole.alexapusheen.model.Attributes.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.StringJoiner;
 
 
 public class IsFullIntentHandler implements RequestHandler {
-	public static final String FOOD_KEY = "Fed";
-	public static final String FOOD_SLOT = "Food";
 
-	public String listToString (List<String> list) {
-		StringJoiner joiner = new StringJoiner(", ");
-		list.forEach(item->joiner.add(item));
-		return joiner.toString(); 
-		
-	}
-	
 	@Override
 	public boolean canHandle(HandlerInput input) {
         return input.matches(Predicates.intentName("IsFullIntent"));
@@ -37,7 +29,7 @@ public class IsFullIntentHandler implements RequestHandler {
 		if (sessionMap.containsKey(FOOD_KEY)) {
 			List<String> foodList = (List<String>) sessionMap.get(FOOD_KEY);
 			if (foodList.size() >= 3) {
-				speechText = "I'm full! You fed me "+ listToString(foodList) + ".";
+				speechText = "I'm full! You fed me "+ Utils.listToCommaString(foodList) + ".";
 				//full
 			} else { 
 				//not full
