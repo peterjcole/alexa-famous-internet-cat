@@ -31,7 +31,7 @@ public class RecipeInstruction {
 
 	@Override
 	public String toString() {
-		return "Step number " + stepNo + ", " + instructionText;
+		return "Step " + stepNo + ", " + instructionText;
 	}
 
 	

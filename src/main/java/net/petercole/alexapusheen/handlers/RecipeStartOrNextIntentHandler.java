@@ -21,19 +21,22 @@ public class RecipeStartOrNextIntentHandler implements RequestHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput input) {
-		//todo: new intents to handle previous and repeat
+		//todo: new intents to handle previous
 		//todo: use states to implement multiple recipes
-		String speechText;
+		String speechText = null;
 		Map<String, Object> sessionMap = input.getAttributesManager().getSessionAttributes();
-		String state = (String) sessionMap.get(Attributes.STATE_KEY);
+		Optional<Object> state = Optional.ofNullable(sessionMap.get(Attributes.STATE_KEY));
 		
-		if (state.equals(Attributes.START_STATE)) {
+		if (!state.isPresent()) {
+			speechText = "Ask me about my pizza dough recipe!";
+		}
+		
+		if (state.isPresent() && state.get().equals(Attributes.START_STATE)) {
 			// give recipe item 1
 			sessionMap.put(Attributes.STATE_KEY, Attributes.RECIPE_STATE);
 			sessionMap.put(Attributes.RECIPE_ITEM_KEY, 0);
 			speechText = Constants.INSTRUCTIONS.get(0).toString();
-
-		} else if (state.equals(Attributes.RECIPE_STATE)) {
+		} else if (state.isPresent() && state.get().equals(Attributes.RECIPE_STATE)) {
 			
 			int lastItem = (int) sessionMap.get(Attributes.RECIPE_ITEM_KEY);
 			
@@ -45,12 +48,9 @@ public class RecipeStartOrNextIntentHandler implements RequestHandler {
 				//lastItem == Constants.INSTRUCTIONS.size()) 
 				speechText = "That was all the instructions! Hope you enjoy your pizza, meow";
 			}
-		
-		} else {
-			// not been given info yet
-			speechText = "Ask me about my pizza dough recipe!";
-			}
 			
+		}
+						
 			
 		
 		return input.getResponseBuilder()

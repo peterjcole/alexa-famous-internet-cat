@@ -21,7 +21,8 @@ public class PusheenStreamHandler extends SkillStreamHandler{
 						 new IsFullIntentHandler(), 
 						 new PangPangIntentHandler(), 
 						 new RecipeInfoIntentHandler(), 
-						 new RecipeStartOrNextIntentHandler()
+						 new RecipeStartOrNextIntentHandler(),
+						 new RecipeRepeatIntentHandler()
 						 )
                  .build();
 	}
