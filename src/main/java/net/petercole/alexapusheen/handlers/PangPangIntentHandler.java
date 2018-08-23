@@ -37,10 +37,10 @@ public class PangPangIntentHandler implements RequestHandler {
 			// 2 or more pangs
 			String pangs = pangSlot.getValue();
 			String[] pangsArray = pangs.split("\\s");
-			int numPangs = pangsArray.length;
+			int numExtraPangs = pangsArray.length;
 			
-			if (numPangs < 4) {
-				for (int x=0; x<numPangs; x++) {
+			if (numExtraPangs <= 3) {
+				for (int x=0; x<numExtraPangs; x++) {
 					speechText = speechText + " meow";
 				}
 			} else {

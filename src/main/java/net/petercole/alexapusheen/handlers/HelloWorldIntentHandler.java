@@ -12,6 +12,7 @@ public class HelloWorldIntentHandler implements RequestHandler {
      @Override
      public boolean canHandle(HandlerInput input) {
         return input.matches(Predicates.intentName("HelloWorldIntent"));
+       
      }
 
      @Override
